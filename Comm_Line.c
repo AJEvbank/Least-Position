@@ -6,21 +6,23 @@
 
 void CommLineArgs(int argc,
                   char ** argv,
-                  int *rows,
-                  int *cols,
                   int *seed,
-									int *gran,
+                  int *max_num,
+                  int *n,
+									int *source,
+                  int *connectivity,
                   int *print
                  )
 {
-  *rows = ROWS; *cols = COLS; *seed = SEED; *gran = GRAN, *print = PRINT;
+  *seed = SEED; *max_num = MAX_NUM; *n = N; *source = SOURCE, *connectivity = CONNECTIVITY, *print = PRINT;
   static char * SHORT = "";
 	static struct option OPTS[] =
 																{
-																	{"rows",required_argument,0,'r'},
-                                  {"cols",required_argument,0,'c'},
                                   {"seed",required_argument,0,'s'},
-                                  {"gran",required_argument,0,'g'},
+																	{"max_num",required_argument,0,'m'},
+                                  {"n",required_argument,0,'n'},
+                                  {"source",required_argument,0,'r'},
+                                  {"connectivity",required_argument,0,'c'},
                                   {"print",no_argument,0,'p'},
 																	{0,0,0,0}
 																};
@@ -37,26 +39,6 @@ void CommLineArgs(int argc,
 
     switch(ch)
     {
-      case 'r':
-                if(isNumber(optarg))
-                {
-                  *rows = atoi(optarg);
-                }
-                else
-                {
-                  *rows = ROWS;
-                }
-                break;
-      case 'c':
-                if(isNumber(optarg))
-                {
-                  *cols = atoi(optarg);
-                }
-                else
-                {
-                  *cols = COLS;
-                }
-                break;
       case 's':
                 if(isNumber(optarg))
                 {
@@ -67,14 +49,44 @@ void CommLineArgs(int argc,
                   *seed = SEED;
                 }
                 break;
-      case 'g':
+      case 'm':
                 if(isNumber(optarg))
                 {
-                  *gran = atoi(optarg);
+                  *max_num = atoi(optarg);
                 }
                 else
                 {
-                  *gran = GRAN;
+                  *max_num = MAX_NUM;
+                }
+                break;
+      case 'n':
+                if(isNumber(optarg))
+                {
+                  *n = atoi(optarg);
+                }
+                else
+                {
+                  *n = N;
+                }
+                break;
+      case 'r':
+                if(isNumber(optarg))
+                {
+                  *source = atoi(optarg);
+                }
+                else
+                {
+                  *source = SOURCE;
+                }
+                break;
+      case 'c':
+                if(isNumber(optarg))
+                {
+                  *connectivity = atoi(optarg);
+                }
+                else
+                {
+                  *connectivity = CONNECTIVITY;
                 }
                 break;
       case 'p':

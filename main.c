@@ -7,11 +7,35 @@ int main(int argc, char ** argv)
   MPI_Comm_rank(MCW, &world_rank);
   int world_size;
   MPI_Comm_size(MCW, &world_size);
-  srand(time(NULL));
 
-  int n = 10, source 0;
-  int * edge = (int *)calloc(n * n, sizeof(int));
+
+
+  int n, source, i, j, row, seed, max_num, connectivity, print;
+
+  CommLineArgs(argc,argv,&seed,&max_num,&n,&source,&connectivity,&print);
+
+  srand(seed);
+  int * edge = (int *)calloc(n * n,sizeof(int));
   int * dist = (int *)calloc(n,sizeof(int));
+
+
+  for (i = 0; i < n; i++)
+  {
+    row = i * n;
+    for (j = 0; j < n; j++)
+    {
+      if (i != j && isConnected(connectivity))
+      {
+        edge[row + j] = QUAN;
+        printf("%d,",edge[row + j]);
+      }
+      else
+      {
+        edge[row + j] = 0;
+      }
+    }
+    printf("\n");
+  }
 
   f(source,n,edge,dist);
 
@@ -20,7 +44,8 @@ int main(int argc, char ** argv)
     printf("%d\n",dist[i]);
   }
 
-
+  free(edge);
+  free(dist);
   MPI_Finalize();
   return 0;
 }

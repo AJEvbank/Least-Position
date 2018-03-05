@@ -14,17 +14,17 @@
 
 
 #define MCW MPI_COMM_WORLD
-#define ROWS 10000
-#define COLS 10000
 #define SEED 1
-#define GRAN 1
-#define QUAN (int)(((double)rand())/((double)RAND_MAX) * 32)
+#define MAX_NUM 100
+#define QUAN (int)(((double)rand())/((double)RAND_MAX) * max_num) + 1
 #define PRINT 0
-#define CHECKSUM 1
+#define N 10
+#define SOURCE 0
+#define CONNECTIVITY 1
 
-#define TIME 0
-#define CORRECT 0
-#define CHECK printf("Check on world_rank %d\n",world_rank);
+// #define TIME 0
+// #define CORRECT 0
+// #define CHECK printf("Check on world_rank %d\n",world_rank);
 
 // (int)(((double)rand())/((double)RAND_MAX) * 32)
 // u++
@@ -44,15 +44,26 @@ enum isNumStates {
 
 void CommLineArgs(int argc,
                   char ** argv,
-                  int *rows,
-                  int *cols,
                   int *seed,
-									int *gran,
+                  int *max_num,
+                  int *n,
+									int *source,
+                  int *connectivity,
                   int *print
-                );
+                 );
 
 int isNumber(const char * str);
 
+void f(
+        int source,
+        int n,
+        int *edge,
+        int *dist
+      );
+
+int choose(int *dist, int n, int *found);
+
+int min(int i, int j);
 
 
 #endif
