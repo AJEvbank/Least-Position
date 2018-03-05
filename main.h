@@ -65,5 +65,7 @@ int choose(int *dist, int n, int *found);
 
 int min(int i, int j);
 
+int isConnected(int connectivity);
+
 
 #endif

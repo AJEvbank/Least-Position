@@ -27,12 +27,12 @@ int main(int argc, char ** argv)
       if (i != j && isConnected(connectivity))
       {
         edge[row + j] = QUAN;
-        printf("%d,",edge[row + j]);
       }
       else
       {
         edge[row + j] = 0;
       }
+      printf("%d,",edge[row + j]);
     }
     printf("\n");
   }
