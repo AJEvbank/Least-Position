@@ -1,0 +1,18 @@
+MPI_Send(
+    void* data, // buffer
+    int count, // number of items to copy from buffer
+    MPI_Datatype datatype, // MPI datatype to send
+    int destination, // destination process
+    int tag, // unique tag of message
+    MPI_Comm communicator // communicator object
+    )
+
+    MPI_Recv(
+    void* data, // buffer
+    int count, // number of items to copy from buffer
+    MPI_Datatype datatype, // MPI datatype to send
+    int source, // sender process
+    int tag, // unique tag of message
+    MPI_Comm communicator, // communicator object
+    MPI_Status* status // MPI status object
+    )
