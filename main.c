@@ -9,21 +9,16 @@ int main(int argc, char ** argv)
   MPI_Comm_size(MCW, &world_size);
   srand(time(NULL));
 
-  if (world_rank == 0)
+  int n = 10, source 0;
+  int * edge = (int *)calloc(n * n, sizeof(int));
+  int * dist = (int *)calloc(n,sizeof(int));
+
+  f(source,n,edge,dist);
+
+  for (i = 0; i < n; i++)
   {
-    printf("World_size = %d.\n\n",world_size);
+    printf("%d\n",dist[i]);
   }
-  else
-  {
-    sleep(1);
-  }
-
-  printf("Rank: %d PRE-barrier.\n",world_rank);
-
-  if (world_rank == (rand()%world_size)) { printf("World Rank %d going to sleep in MAIN.\n",world_rank); sleep(5);}
-  mybarrier(MCW);
-
-  printf("Rank: %d POST-barrier.\n",world_rank);
 
 
   MPI_Finalize();

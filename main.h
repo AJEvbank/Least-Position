@@ -42,19 +42,17 @@ enum isNumStates {
 	ERROR
 };
 
-// void CommLineArgs(int argc,
-//                   char ** argv,
-//                   int *rows,
-//                   int *cols,
-//                   int *seed,
-// 									int *gran,
-//                   int *print
-//                 );
-//
-// int isNumber(const char * str);
+void CommLineArgs(int argc,
+                  char ** argv,
+                  int *rows,
+                  int *cols,
+                  int *seed,
+									int *gran,
+                  int *print
+                );
 
-int mybarrier(MPI_Comm mcw);
+int isNumber(const char * str);
 
-int getMax(int world_size);
+
 
 #endif
