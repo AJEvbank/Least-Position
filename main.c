@@ -20,19 +20,13 @@ int main(int argc, char ** argv)
 
   printf("n = %d, source = %d, seed = %d, max_num = %d, connectivity = %d\n",n,source,seed,max_num,connectivity);
 
+  makeGraph(n,edge,max_num,connectivity);
+
   for (i = 0; i < n; i++)
   {
     row = i * n;
     for (j = 0; j < n; j++)
     {
-      if (i != j && isConnected(connectivity))
-      {
-        edge[row + j] = QUAN;
-      }
-      else
-      {
-        edge[row + j] = (int)INFINITY;
-      }
       if (edge[row + j] == (int)INFINITY)
       {
         printf("--,");

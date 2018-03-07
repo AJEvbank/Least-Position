@@ -13,7 +13,8 @@ void f(
 {
   int i, j, count;
   int * found = (int *) calloc( n, sizeof(int) );
-  for(i = 0; i < n; i++) {
+  for(i = 0; i < n; i++)
+  {
     found[i] = 0;
     dist[i] = edge[(source * n) + i];
   }
@@ -60,6 +61,26 @@ int min(int i, int j)
 int isConnected(int connectivity)
 {
   return ((rand() % connectivity) == 0);
+}
+
+void makeGraph(int n, int * edge, int max_num, int connectivity)
+{
+  int i,j,row;
+  for (i = 0; i < n; i++)
+  {
+    row = i * n;
+    for (j = 0; j < n; j++)
+    {
+      if (i != j && isConnected(connectivity))
+      {
+        edge[row + j] = QUAN;
+      }
+      else
+      {
+        edge[row + j] = (int)INFINITY;
+      }
+    }
+  }
 }
 
 #endif

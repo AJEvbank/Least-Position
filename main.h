@@ -67,5 +67,7 @@ int min(int i, int j);
 
 int isConnected(int connectivity);
 
+void makeGraph(int n, int * edge, int max_num, int connectivity);
+
 
 #endif
