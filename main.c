@@ -18,6 +18,7 @@ int main(int argc, char ** argv)
   int * edge = (int *)calloc(n * n,sizeof(int));
   int * dist = (int *)calloc(n,sizeof(int));
 
+  printf("n = %d, source = %d, seed = %d, max_num = %d, connectivity = %d\n",n,source,seed,max_num,connectivity);
 
   for (i = 0; i < n; i++)
   {
@@ -30,18 +31,34 @@ int main(int argc, char ** argv)
       }
       else
       {
-        edge[row + j] = 0;
+        edge[row + j] = (int)INFINITY;
       }
-      printf("%d,",edge[row + j]);
+      if (edge[row + j] == (int)INFINITY)
+      {
+        printf("--,");
+      }
+      else
+      {
+        printf("%d,",edge[row + j]);
+      }
     }
     printf("\n");
   }
 
+  printf("\n");
   f(source,n,edge,dist);
+  printf("\n");
 
   for (i = 0; i < n; i++)
   {
-    printf("%d\n",dist[i]);
+    if (dist[i] == (int)INFINITY)
+    {
+      printf("--,\n");
+    }
+    else
+    {
+      printf("%d\n",dist[i]);
+    }
   }
 
   free(edge);

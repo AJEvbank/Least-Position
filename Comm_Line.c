@@ -58,6 +58,7 @@ void CommLineArgs(int argc,
                 {
                   *max_num = MAX_NUM;
                 }
+                printf("max_num = %d\n",*max_num);
                 break;
       case 'n':
                 if(isNumber(optarg))

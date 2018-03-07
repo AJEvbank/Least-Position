@@ -11,12 +11,13 @@ void f(
         int *dist
       )
 {
-  int i, j, count, *found;
-  found = (int *) calloc( n, sizeof(int) );
+  int i, j, count;
+  int * found = (int *) calloc( n, sizeof(int) );
   for(i = 0; i < n; i++) {
     found[i] = 0;
-    dist [i] = edge[(source * n) + i];
+    dist[i] = edge[(source * n) + i];
   }
+
   found[source] = 1;
   count = 1;
   while(count < n )
@@ -24,10 +25,10 @@ void f(
     j = choose(dist, n, found);
     found[j] = 1 ;
     count++;
-    for(i=0; i<n; i++)
+    for(i=0; i < n; i++)
     {
       if ( !(found[i]) )
-        dist[i] = min(dist[i],dist[j] + edge[(j * n) +i]);
+        dist[i] = min(dist[i], dist[j] + edge[(j * n) + i]);
     }
   }
   free (found);
@@ -49,7 +50,7 @@ int choose(int *dist, int n, int *found)
 
 int min(int i, int j)
 {
-  if (i > j)
+  if (i < j)
   {
     return i;
   }

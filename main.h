@@ -16,7 +16,7 @@
 #define MCW MPI_COMM_WORLD
 #define SEED 1
 #define MAX_NUM 100
-#define QUAN (int)(((double)rand())/((double)RAND_MAX) * max_num) + 1
+#define QUAN (int)(((double)rand())/((double)RAND_MAX) * (double)max_num) + 1
 #define PRINT 0
 #define N 10
 #define SOURCE 0
