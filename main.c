@@ -45,7 +45,7 @@ int main(int argc, char ** argv)
 
   for (i = 0; i < n; i++)
   {
-    if (dist[i] == (int)INFINITY)
+    if (dist[i] == (int)INFINITY || dist[i] < 0)
     {
       printf("--,\n");
     }
