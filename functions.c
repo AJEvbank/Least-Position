@@ -120,7 +120,7 @@ void Reduce_Bcast_Distances(MPI_Comm mcw, int * dist, int n)
   int world_size;
   MPI_Comm_size(mcw, &world_size);
 
-  int level, offset, tag = 0, slice = n/world_size, start = world_rank * slice, myStart = start, mySlice = slice;
+  int level, offset, tag = 0, slice = n/world_size, start = world_rank * slice, mySlice = slice;
   int senderStart, senderSlice;
   MPI_Status status;
   int max = getMax(world_size);
@@ -133,7 +133,7 @@ void Reduce_Bcast_Distances(MPI_Comm mcw, int * dist, int n)
       if((world_rank % level) == offset)
       {
         //send
-        MPI_Send(&dist[myStart], mySlice, MPI_INT,
+        MPI_Send(&dist[start], mySlice, MPI_INT,
           world_rank - offset, tag, mcw);
       }
       else if((world_rank % level) == 0)
@@ -142,8 +142,7 @@ void Reduce_Bcast_Distances(MPI_Comm mcw, int * dist, int n)
         if ((world_rank + offset) < world_size)
         {
           senderStart = (world_rank + offset) * slice;
-          senderSlice = mySlice;
-          MPI_Recv(&dist[senderStart], senderSlice, MPI_INT,
+          MPI_Recv(&dist[senderStart], mySlice, MPI_INT,
             world_rank + offset, MPI_ANY_TAG, mcw, &status);
         }
       }
@@ -171,13 +170,13 @@ void Reduce_Bcast_Distances(MPI_Comm mcw, int * dist, int n)
        // but only if the recipient actually exists.
        if ((world_rank + offset) < world_size)
        {
-         MPI_Send(&sig,1,MPI_INT,world_rank + offset,tag,mcw);
+         MPI_Send(dist,n,MPI_INT,world_rank + offset,tag,mcw);
        }
      }
      else if ((world_rank % level) == offset)
      {
        // Process is a receiver and must wait for a check-in from its sender.
-       MPI_Recv(&sig,1,MPI_INT,world_rank - offset,MPI_ANY_TAG,mcw,&status);
+       MPI_Recv(dist,n,MPI_INT,world_rank - offset,MPI_ANY_TAG,mcw,&status);
      }
      else
      {
