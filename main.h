@@ -22,6 +22,8 @@
 #define SOURCE 0
 #define CONNECTIVITY 1
 
+#define DEBUG_FUNC 1
+
 // #define TIME 0
 // #define CORRECT 0
 // #define CHECK printf("Check on world_rank %d\n",world_rank);
@@ -69,5 +71,6 @@ int isConnected(int connectivity);
 
 void makeGraph(int n, int * edge, int max_num, int connectivity);
 
+int addWithInfinity(int A, int B);
 
 #endif
