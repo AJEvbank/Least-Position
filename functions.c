@@ -23,14 +23,14 @@ void f(
   count = 1;
   while(count < n )
   {
-    printf("choosing...\n");
+    if (DEBUG_FUNC) printf("choosing...\n");
     j = choose(dist, n, found);
     found[j] = 1;
     count++;
     if (DEBUG_FUNC) printf("j = %d\n",j);
     for(i = 0; i < n; i++)
     {
-      printf("i = %d\n",i);
+      if (DEBUG_FUNC) printf("i = %d\n",i);
       if ( (found[i]) == 0 )
       {
         if (DEBUG_FUNC) { printf("dist[%d] = min(%d,(%d + %d = %d));\n",i,dist[i],dist[j],edge[(j * n) + i],addWithInfinity(dist[j],edge[(j * n) + i])); }
