@@ -22,7 +22,7 @@
 #define SOURCE 0
 #define CONNECTIVITY 1
 
-#define DEBUG_FUNC 1
+#define DEBUG_FUNC 0
 
 // #define TIME 0
 // #define CORRECT 0
@@ -72,5 +72,9 @@ int isConnected(int connectivity);
 void makeGraph(int n, int * edge, int max_num, int connectivity);
 
 int addWithInfinity(int A, int B);
+
+void Reduce_Bcast_Distances(MPI_Comm mcw, int * dist, int n);
+
+int getMax(int world_size);
 
 #endif
