@@ -22,7 +22,7 @@
 #define SOURCE 0
 #define CONNECTIVITY 1
 
-#define DEBUG_FUNC 0
+#define DEBUG_FUNC 1
 
 // #define TIME 0
 // #define CORRECT 0
@@ -60,7 +60,8 @@ void f(
         int source,
         int n,
         int *edge,
-        int *dist
+        int *dist,
+				MPI_Comm mcw
       );
 
 int choose(int *dist, int n, int *found);

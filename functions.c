@@ -27,26 +27,27 @@ void f(
 
   found[source] = 1;
   count = 1;
-  while(count < n )
+  while( count < n )
   {
-    printf("choosing...\n");
+    if (DEBUG_FUNC) printf("choosing on %d\n",world_rank);
     j = choose(dist, n, found);
     found[j] = 1;
     count++;
     if (DEBUG_FUNC) printf("j = %d\n",j);
-    for(i = start; i < slice; i++)
+    for(i = start; i < start + slice; i++)
     {
-      printf("i = %d\n",i);
+      if (DEBUG_FUNC) printf("i = %d on %d\n",i,world_rank);
       if ( (found[i]) == 0 )
       {
-        if (DEBUG_FUNC) { printf("dist[%d] = min(%d,(%d + %d = %d));\n",i,dist[i],dist[j],edge[(j * n) + i],addWithInfinity(dist[j],edge[(j * n) + i])); }
+        if (DEBUG_FUNC) { printf("On %d => dist[%d] = min(%d,(%d + %d = %d));\n",world_rank,i,dist[i],dist[j],edge[(j * n) + i],addWithInfinity(dist[j],edge[(j * n) + i])); }
         dist[i] = min(dist[i], addWithInfinity(dist[j],edge[(j * n) + i]));
-        if (DEBUG_FUNC) { printf("dist[%d] = %d;\n",i,dist[i]); }
+        if (DEBUG_FUNC) { printf("On %d => dist[%d] = %d;\n",world_rank,i,dist[i]); }
       }
     }
     Reduce_Bcast_Distances(mcw,dist,n);
   }
   free(found);
+  return;
 }
 
 int choose(int *dist, int n, int *found)
@@ -121,7 +122,7 @@ void Reduce_Bcast_Distances(MPI_Comm mcw, int * dist, int n)
   MPI_Comm_size(mcw, &world_size);
 
   int level, offset, tag = 0, slice = n/world_size, start = world_rank * slice, mySlice = slice;
-  int senderStart, senderSlice;
+  int senderStart;
   MPI_Status status;
   int max = getMax(world_size);
 
@@ -153,8 +154,6 @@ void Reduce_Bcast_Distances(MPI_Comm mcw, int * dist, int n)
   }
 
   tag++;
-  printf("%d going to sleep...\n",world_rank);
-  sleep(3);
 
   // Broadcast of all-clear signal from world_rank 0.
   for (level = max,
@@ -184,9 +183,7 @@ void Reduce_Bcast_Distances(MPI_Comm mcw, int * dist, int n)
        continue;
      }
   }
-
-
-  return 0;
+  return;
 }
 
 int getMax(int world_size)

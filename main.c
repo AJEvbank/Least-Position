@@ -29,31 +29,35 @@ int main(int argc, char ** argv)
     {
       if (edge[row + j] == (int)INFINITY)
       {
-        printf("--,");
+        if (world_rank == 0) printf("--,");
       }
       else
       {
-        printf("%d,",edge[row + j]);
+        if (world_rank == 0) printf("%d,",edge[row + j]);
       }
     }
-    printf("\n");
+    if (world_rank == 0) printf("\n");
   }
 
-  printf("\n");
-  f(source,n,edge,dist);
-  printf("\n");
+  if (world_rank == 0) printf("\n");
+  f(source,n,edge,dist,MCW);
+  if (world_rank == 0) printf("\n");
 
-  for (i = 0; i < n; i++)
+  if (world_rank == 0)
   {
-    if (dist[i] == (int)INFINITY || dist[i] < 0)
+    for (i = 0; i < n; i++)
     {
-      printf("--,\n");
-    }
-    else
-    {
-      printf("%d\n",dist[i]);
+      if (dist[i] == (int)INFINITY || dist[i] < 0)
+      {
+        printf("--,\n");
+      }
+      else
+      {
+        printf("%d\n",dist[i]);
+      }
     }
   }
+
 
   free(edge);
   free(dist);
