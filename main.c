@@ -18,33 +18,43 @@ int main(int argc, char ** argv)
   int * edge = (int *)calloc(n * n,sizeof(int));
   int * dist = (int *)calloc(n,sizeof(int));
 
-  if (world_rank == 0) printf("n = %d, source = %d, seed = %d, max_num = %d, connectivity = %d, print = %d\n",n,source,seed,max_num,connectivity,print);
+  if (world_rank == 0) printf("n = %d, source = %d, seed = %d, max_num = %d, connectivity = %d, print = %d\n\n",n,source,seed,max_num,connectivity,print);
 
   makeGraph(n,edge,max_num,connectivity);
 
-  if (print)
+  if (print == 1 && world_rank == 0)
   {
+    for (i = -1; i < n; i++)
+    {
+      if (i == -1) { printf("\t "); }
+      else { printf("\t%d",i); }
+    }
+    printf("\n");
     for (i = 0; i < n; i++)
     {
       row = i * n;
-      for (j = 0; j < n; j++)
+      for (j = -1; j < n; j++)
       {
-        if (edge[row + j] == (int)INFINITY)
-        {
-          if (world_rank == 0) printf("\t--,");
-        }
+        if (j == -1) { printf("\t%d",i); }
         else
         {
-          if (world_rank == 0) printf("\t%d,",edge[row + j]);
+          if (edge[row + j] == (int)INFINITY)
+          {
+            printf("\t--,");
+          }
+          else
+          {
+            printf("\t%d,",edge[row + j]);
+          }
         }
       }
-      if (world_rank == 0) printf("\n");
+      printf("\n");
     }
   }
 
   if (world_rank == 0 && print) printf("\n");
   f(source,n,edge,dist,MCW);
-  if (world_rank == 0) printf("\n");
+  if (world_rank == 0 && print) printf("\n");
 
   if (world_rank == 0)
   {
@@ -52,11 +62,11 @@ int main(int argc, char ** argv)
     {
       if (dist[i] == (int)INFINITY || dist[i] < 0)
       {
-        printf("--,\n");
+        printf("%d => --,\n",i);
       }
       else
       {
-        printf("%d,\n",dist[i]);
+        printf("%d => %d,\n",i,dist[i]);
       }
     }
   }

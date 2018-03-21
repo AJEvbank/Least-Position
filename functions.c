@@ -29,19 +29,34 @@ void f(
   count = 1;
   while( count < n )
   {
-    if (DEBUG_FUNC) printf("choosing on %d\n",world_rank);
+
+    if (DEBUG_F) printf("choosing on %d\n",world_rank);
+
     j = choose(mcw, dist, n, found);
     found[j] = 1;
     count++;
+
     if (DEBUG_CHOOSE) printf("j = %d, count = %d on %d\n",j,count,world_rank);
+
     for(i = start; i < start + slice; i++)
     {
-      if (DEBUG_FUNC) printf("i = %d on %d\n",i,world_rank);
+
+      if (DEBUG_F) printf("i = %d on %d\n",i,world_rank);
+
       if ( (found[i]) == 0 )
       {
-        if (DEBUG_FUNC) { printf("On %d => dist[%d] = min(%d,(%d + %d = %d));\n",world_rank,i,dist[i],dist[j],edge[(j * n) + i],addWithInfinity(dist[j],edge[(j * n) + i])); }
+        if (DEBUG_F) { printf("On %d => dist[%d] = min(%d,(%d + %d = %d));\n",
+                              world_rank,
+                              i,
+                              dist[i],
+                              dist[j],
+                              edge[(j * n) + i],
+                              addWithInfinity(dist[j],edge[(j * n) + i])); }
+
         dist[i] = min(dist[i], addWithInfinity(dist[j],edge[(j * n) + i]));
-        if (DEBUG_FUNC) { printf("On %d => dist[%d] = %d;\n",world_rank,i,dist[i]); }
+
+        if (DEBUG_F) { printf("On %d => dist[%d] = %d;\n",world_rank,i,dist[i]); }
+
       }
     }
     Reduce_Bcast_Distances(mcw,dist,n);
