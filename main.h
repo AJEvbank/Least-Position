@@ -23,6 +23,7 @@
 #define CONNECTIVITY 1
 
 #define DEBUG_FUNC 0
+#define DEBUG_CHOOSE 1
 
 // #define TIME 0
 // #define CORRECT 0
@@ -64,7 +65,7 @@ void f(
 				MPI_Comm mcw
       );
 
-int choose(int *dist, int n, int *found);
+int choose(MPI_Comm mcw, int *dist, int n, int *found);
 
 int min(int i, int j);
 
@@ -77,5 +78,7 @@ int addWithInfinity(int A, int B);
 void Reduce_Bcast_Distances(MPI_Comm mcw, int * dist, int n);
 
 int getMax(int world_size);
+
+int Reduce_Bcast_J(MPI_Comm mcw, int localMinimum, int * dist, int n);
 
 #endif

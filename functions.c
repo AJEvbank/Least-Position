@@ -30,10 +30,10 @@ void f(
   while( count < n )
   {
     if (DEBUG_FUNC) printf("choosing on %d\n",world_rank);
-    j = choose(dist, n, found);
+    j = choose(mcw, dist, n, found);
     found[j] = 1;
     count++;
-    if (DEBUG_FUNC) printf("j = %d\n",j);
+    if (DEBUG_CHOOSE) printf("j = %d, count = %d on %d\n",j,count,world_rank);
     for(i = start; i < start + slice; i++)
     {
       if (DEBUG_FUNC) printf("i = %d on %d\n",i,world_rank);
@@ -50,18 +50,23 @@ void f(
   return;
 }
 
-int choose(int *dist, int n, int *found)
+int choose(MPI_Comm mcw,int *dist, int n, int *found)
 {
-  int i, tmp, least = (int)INFINITY, leastPosition = 0;
-  for(i = 0; i < n; i++)
+  int world_rank;
+  MPI_Comm_rank(mcw, &world_rank);
+  int world_size;
+  MPI_Comm_size(mcw, &world_size);
+
+  int i, tmp, least = (int)INFINITY, localMinimum = 0, slice = n/world_size, start = world_rank * slice;
+  for(i = start; i < start + slice; i++)
   {
       tmp = dist[i];
       if( (!found[i]) && (tmp < least) ) {
         least = tmp;
-        leastPosition = i;
+        localMinimum = i;
       }
   }
-  return leastPosition;
+  return Reduce_Bcast_J(mcw,localMinimum,dist,n);
 }
 
 int min(int i, int j)
