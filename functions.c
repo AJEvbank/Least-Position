@@ -65,20 +65,28 @@ void f(
   return;
 }
 
-int choose(MPI_Comm mcw,int *dist, int n, int *found)
+int choose(MPI_Comm mcw, int *dist, int n, int *found)
 {
   int world_rank;
   MPI_Comm_rank(mcw, &world_rank);
   int world_size;
   MPI_Comm_size(mcw, &world_size);
 
-  int i, tmp, least = (int)INFINITY, localMinimum = 0, slice = n/world_size, start = world_rank * slice;
+  int i, tmp, slice = n/world_size, start = world_rank * slice, localMinimum = -1, least = (int)INFINITY;
   for(i = start; i < start + slice; i++)
   {
       tmp = dist[i];
       if( (!found[i]) && (tmp < least) ) {
+        if (DEBUG_CH_LOOP)
+        {
+          printf("On %d => found[%d] = %d && %d < %d\n",world_rank,i,found[i],tmp,least);
+        }
         least = tmp;
         localMinimum = i;
+        if (DEBUG_CH_LOOP)
+        {
+          printf("On %d => least = %d, localMinimum = %d\n",world_rank,least,localMinimum);
+        }
       }
   }
   return Reduce_Bcast_J(mcw,localMinimum,dist,n);

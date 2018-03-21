@@ -117,7 +117,18 @@ int Reduce_Bcast_J(MPI_Comm mcw, int localMinimum, int * dist, int n)
           // keep the smaller
           MPI_Recv(&sendersMinimum, 1, MPI_INT,
             world_rank + offset, tag, mcw, &status);
-          if (dist[sendersMinimum] < dist[currentLocalMinimum]) { currentLocalMinimum = sendersMinimum; }
+          if (sendersMinimum != -1 && currentLocalMinimum != -1)
+          {
+            if (dist[sendersMinimum] < dist[currentLocalMinimum]) { currentLocalMinimum = sendersMinimum; }
+          }
+          else if (sendersMinimum != -1 && currentLocalMinimum == -1)
+          {
+            currentLocalMinimum = sendersMinimum;
+          }
+          else
+          {
+            //Do nothing.
+          }
         }
       }
       else {

@@ -24,6 +24,7 @@
 
 #define DEBUG_F 0
 #define DEBUG_CHOOSE 0
+#define DEBUG_CH_LOOP 0
 
 // #define TIME 0
 // #define CORRECT 0
